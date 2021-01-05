@@ -1,0 +1,138 @@
+# -*- coding: utf-8 -*-
+
+# Есть словарь кодов товаров
+
+goods = {
+    'Лампа': '12345',
+    'Стол': '23456',
+    'Диван': '34567',
+    'Стул': '45678',
+}
+
+# Есть словарь списков количества товаров на складе.
+
+store = {
+    '12345': [
+        {'quantity': 27, 'price': 42},
+    ],
+    '23456': [
+        {'quantity': 22, 'price': 510},
+        {'quantity': 32, 'price': 520},
+    ],
+    '34567': [
+        {'quantity': 2, 'price': 1200},
+        {'quantity': 1, 'price': 1150},
+    ],
+    '45678': [
+        {'quantity': 50, 'price': 100},
+        {'quantity': 12, 'price': 95},
+        {'quantity': 43, 'price': 97},
+    ],
+}
+
+# Каждая запись отображает сколько и по какой цене закупалось товаров.
+#
+# Задание: вывести суммарную стоимость каждого ВИДА товара на складе c помощью циклов
+#
+# Формат вывода:
+#   <товар_1> - <кол-во_товара_1> шт, стоимость <общая_стоимость_товара_1> руб
+#   <товар_2> - <кол-во_товара_2> шт, стоимость <общая_стоимость_товара_2> руб
+#   <товар_4> - <кол-во_товара_3> шт, стоимость <общая_стоимость_товара_3> руб
+#
+# Например:
+#   Стул - 1111 шт, стоимость 8888 руб
+#   Диван - 2222 шт, стоимость 9999 руб
+#   и так далее
+#
+# Алгоритм должен получиться приблизительно такой:
+#
+# цикл for по товарам с получением кода и названия товара
+#     инициализация переменных для подсчета количества и стоимости товара
+#     получение списка на складе по коду товара
+#     цикл for по списку на складе
+#         подсчет количества товара
+#         подсчет стоимости товара
+#     вывод на консоль количества и стоимости товара на складе
+
+for product_name, product_code in goods.items():
+    item_total_quantity = 0
+    item_total_cost = 0
+    for product in store[product_code]:
+        item_quantity = product['quantity']
+        item_cost = product['price']
+        item_total_cost += item_quantity * item_cost
+        item_total_quantity += item_quantity
+    print(product_name, '-', item_total_quantity, 'шт , общая стоимость', item_total_cost, 'рублей')
+
+
+import simple_draw as sd
+
+rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN,
+                  sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE)
+
+# Нарисовать радугу: 7 линий разного цвета толщиной 4 с шагом 5 из точки (50, 50) в точку (350, 450)
+x1, y1 = 50, 50
+x2, y2 = 350, 450
+point = sd.get_point(x1, y1)
+point1 = sd.get_point(x2, y2)
+for color in rainbow_colors:
+    point.x += 5
+    point1.x += 5
+    sd.line(start_point=point, end_point=point1, width=4, color=color)
+
+
+# Нарисовать стену из кирпичей. Размер кирпича - 100х50
+# Использовать вложенные циклы for
+
+sd.resolution = (600, 600)  # NOTE задаём желаемый формат полотна для отрисовки
+
+shift = 0
+for y in range(0, 1000, 50):
+    y1 = y + 50
+    shift -= 50
+    for x in range(shift, 1000, 100):
+        x1 = x + 100
+        left = sd.get_point(x, y)
+        right = sd.get_point(x1, y1)
+        sd.rectangle(left, right, color="red", width=1)
+sd.pause()
+
+import simple_draw as sd
+
+
+# Написать функцию отрисовки смайлика по заданным координатам
+# Форма рожицы-смайлика на ваше усмотрение
+# Параметры функции: кордината X, координата Y, цвет.
+# Вывести 10 смайликов в произвольных точках экрана.
+# Добрый день! Как засунуть это все в функцию?
+
+
+def draw_smile(point, color):
+    x = point.x
+    y = point.y
+    point = sd.get_point(x, y)
+    radius = 30
+
+    start_point = sd.get_point(x + 10, y - 5)
+    end_point = sd.get_point(x - 10, y - 5)
+
+    center_position = sd.get_point(x + 15, y + 10)
+    radius1 = 5
+
+    center_position1 = sd.get_point(x - 15, y + 10)
+    radius2 = 5
+
+    sd.circle(center_position=center_position, radius=radius1)
+    sd.circle(center_position=center_position1, radius=radius2)
+    sd.line(start_point=start_point, end_point=end_point)
+    sd.circle(center_position=point, radius=radius)
+
+
+for _ in range(10):
+    point = sd.random_point()
+    color = sd.random_color()
+    draw_smile(point=point, color=color)
+
+sd.pause()
+
+
